@@ -27,3 +27,10 @@ exports.isFormateur = (req, res, next) => {
     }
     next();
 };
+
+exports.isStudent = (req, res, next) => {
+    if (req.user.role !== 'etudiant') {
+        return res.status(403).json({error: 'Access denied: Only students are allowed'})
+    }
+    next();
+};

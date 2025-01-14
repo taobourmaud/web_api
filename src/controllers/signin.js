@@ -2,13 +2,15 @@ const pool = require('../config/db');
 
 // Créer un émargement
 exports.createsignin = async (req, res) => {
-    const { session_id, etudiant_id, status } = req.body;
+    const { session_id, status } = req.body;
     try {
+
+        const studentId = req.user.id;
         const [result] = await pool.query(
             'INSERT INTO Emargement (session_id, etudiant_id, status) VALUES (?, ?, ?)',
-            [session_id, etudiant_id, status]
+            [session_id, studentId, status]
         );
-        res.status(201).json({ id: result.insertId, session_id, etudiant_id, status });
+        res.status(201).json({ id: result.insertId, session_id, studentId, status });
     } catch (err) {
         res.status(500).json({ error: err.message });
     }
